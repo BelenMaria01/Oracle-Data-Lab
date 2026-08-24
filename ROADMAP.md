@@ -79,6 +79,16 @@
 - [x] Chat del ticket — región "Mensajes" sobre `OP_ORDEN_MENSAJES`, visible solo con orden ya creada, con envío por AJAX (sin recargar el formulario) para cliente y staff
 - [x] Entrada de menú "Mis Tickets" (solo clientes, vía el mismo esquema de autorización que ya ocultaba el resto del menú)
 
+### Para empleados/técnicos — primera versión (V1.0.0)
+- [x] Página 22 "Mis Órdenes Asignadas" — listado filtrado por `G_ID_TECNICO_ACTUAL`, ordenado por estado (abiertas primero)
+- [x] Página 23 "Mi Panel" — KPIs (órdenes abiertas, resueltas este mes, total histórico, críticas abiertas vía `VW_KPI_ORDENES_TECNICO`), perfil básico y últimas 10 órdenes
+- [x] Página 24 "Calendario de Mantenimientos" — listado sobre `VW_MANTENIMIENTOS_PROXIMOS`, con botón a Nueva Programación
+- [x] Página 25 "Programación de Mantenimiento" — formulario CRUD directo sobre `OP_MANTENIMIENTOS_PROGRAMADOS` (sin el wizard oscuro elaborado, formulario simple)
+- [x] Página 26 "Base de Conocimiento" — listado de `OP_ARTICULOS_KB` con buscador
+- [x] Página 27 "Artículo KB" — formulario de creación/edición, autor automático (`G_ID_TECNICO_ACTUAL`), registra vista vía `PKG_KB.registrar_vista` al abrir un artículo existente
+- [x] Chat en tickets asignados — ya cubierto por la misma región de Mensajes de la página 20 (es la misma UI para cliente y técnico)
+- [x] 5 entradas de menú nuevas (Mis Tickets ya contaba, más Mis Órdenes Asignadas, Mi Panel, Calendario de Mantenimientos, Base de Conocimiento)
+
 ## 🔴 Pendiente en el núcleo interno / Órdenes de Trabajo
 
 - [ ] **Probar el adjunto de punta a punta** — subir un archivo real y confirmar que se guarda correctamente en la orden (implementado pero sin probar en producción todavía)
@@ -91,13 +101,12 @@
 - [ ] (a futuro) gestión de usuarios: que un Cliente Admin invite a otros de su empresa
 - [ ] El chat hoy es un formulario simple (reporte + textarea + botón); si querés algo más "burbujas de chat" hay que agregar estilo visual encima
 
-## 🔜 Próximo — Para empleados/técnicos
+## 🔴 Pendiente en el bloque de empleados/técnicos (V1.0.0, recién construido, sin probar)
 
-- [ ] "Mis Órdenes Asignadas" — vista filtrada por técnico (dato ya disponible en `VW_KPI_ORDENES_TECNICO`)
-- [ ] Panel/perfil personal del técnico (estadísticas, historial)
-- [ ] Chat en tickets asignados (misma UI que el chat del portal de clientes, vista desde el lado técnico)
-- [ ] Calendario de mantenimientos (UI sobre `VW_MANTENIMIENTOS_PROXIMOS`, modelo de datos ya listo)
-- [ ] Base de conocimiento interna (UI sobre `OP_ARTICULOS_KB` + `PKG_KB`, modelo de datos ya listo)
+- [ ] **Probar todo el flujo de punta a punta**: Mis Órdenes Asignadas, Mi Panel, crear una Programación de Mantenimiento, crear un Artículo KB y confirmar que se guarda el autor y suma la vista al reabrirlo
+- [ ] Las páginas 25 (Programación) y 27 (Artículo KB) usan formularios simples, sin el wizard oscuro con sidebar que tienen el resto de las páginas de creación — se puede vestir igual más adelante si se quiere consistencia visual total
+- [ ] `P27_CONTENIDO` usa `dataType: clob` — es la primera vez que se usa ese tipo en este proyecto, sin confirmar contra un import real
+- [ ] Nadie corre todavía `PKG_MANTENIMIENTOS.generar_ordenes_vencidas` — hace falta un job programado (`DBMS_SCHEDULER`) o un botón manual para que las programaciones vencidas generen órdenes automáticamente
 
 ## 🔮 Visión a futuro: Big Data + IA
 
