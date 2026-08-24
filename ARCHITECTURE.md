@@ -25,8 +25,10 @@ La aplicación tiene dos grandes bloques funcionales que comparten la misma base
                               │
                               ▼
                   Oracle Autonomous Database
-                  (15 tablas, 6 paquetes PL/SQL, 2 triggers)
+                  (17 tablas, 8 paquetes PL/SQL, 3 triggers)
 ```
+
+> Estado de build: el **Núcleo CMMS** y la vista de **Órdenes de Trabajo** (lado staff) están 100% terminados. **Mis Tickets** y el **Chat por ticket** (lado cliente) todavía no tienen UI — el modelo de datos ya existe (`OP_ORDEN_MENSAJES`, `ID_CLIENTE` en `OP_ORDENES_TRABAJO`).
 
 ## Decisión de diseño central: "Orden de Trabajo" = "Ticket"
 

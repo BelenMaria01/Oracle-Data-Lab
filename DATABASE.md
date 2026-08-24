@@ -102,7 +102,7 @@ NUEVO ──► EN_PROCESO ──► RESUELTO ──► CERRADO
 (en cualquier punto) ──► CANCELADO
 ```
 
-## Los 6 paquetes PL/SQL
+## Los 8 paquetes PL/SQL
 
 | Paquete | Responsabilidad |
 |---|---|
@@ -115,12 +115,24 @@ NUEVO ──► EN_PROCESO ──► RESUELTO ──► CERRADO
 | `PKG_MANTENIMIENTOS` | Programar mantenimientos recurrentes y generar automáticamente las órdenes cuando vencen |
 | `PKG_KB` | Crear/actualizar artículos de la base de conocimiento y contar vistas |
 
-## Scripts disponibles (`/db`)
+## Scripts disponibles (`Base de datos/`)
+
+Migraciones incrementales numeradas — cada una se ejecuta una sola vez, en orden, y ninguna reescribe a las anteriores.
 
 | Script | Contenido |
 |---|---|
 | `00_RESET_TOTAL.sql` | Borra todo (tablas + paquetes) — solo para reiniciar en desarrollo |
-| `01_TABLAS.sql` | Las 15 tablas completas + índices |
-| `02_PAQUETES.sql` | Los 6 paquetes PL/SQL |
-| `03_TRIGGERS.sql` | 2 triggers: notificar stock bajo, notificar asignación de técnico |
-| `04_CALENDARIO_KB.sql` | Migración incremental: Calendario de mantenimientos + Base de Conocimiento. Ejecutar después de los 3 anteriores, sin resetear nada |
+| `01_TABLAS.sql` | Las 17 tablas completas + índices |
+| `02_PAQUETES.sql` | 6 de los 8 paquetes PL/SQL |
+| `03_TRIGGERS.sql` | Triggers: notificar stock bajo, notificar asignación de técnico |
+| `04_ALTA_ADMIN.sql` | Da de alta (o promueve a ADMIN) al usuario logueado actualmente en APEX |
+| `04_CALENDARIO_KB.sql` | Calendario de mantenimientos + Base de Conocimiento (`PKG_MANTENIMIENTOS`, `PKG_KB`, y 4 de las 6 vistas `VW_KPI_*`) |
+| `05_TECNICOS_BAJA.sql` | Trigger que sella `FECHA_BAJA` automáticamente al desactivar un técnico |
+| `06_HOME_KPIS.sql` | Las 2 vistas de KPI que faltaban para Home: `VW_KPI_TECNICOS_ACTIVO`, `VW_KPI_REPUESTOS_BAJO_MINIMO` |
+| `07_DATOS_DEMO.sql` | Catálogos, técnicos y equipos de ejemplo |
+| `08_FIX_LOGIN_DUPLICADOS.sql` | Corrige el `ORA-01422` al iniciar sesión: dedup + `UNIQUE` constraint en `OP_TECNICOS.USUARIO_APEX` |
+| `09_DATOS_DEMO_REPUESTOS.sql` | Datos de ejemplo de repuestos |
+| `10_DATOS_DEMO_MOVIMIENTOS.sql` | Datos de ejemplo de movimientos de stock |
+| `11_DATOS_DEMO_AUDITORIA.sql` | Datos de ejemplo de auditoría |
+
+> `04_ALTA_ADMIN.sql` y `04_CALENDARIO_KB.sql` comparten el mismo prefijo a propósito: son independientes entre sí y ambos se ejecutan después de `03`, en cualquier orden relativo.

@@ -45,12 +45,10 @@ Estas variables (`G_ROL_USUARIO`, `G_ID_TECNICO_ACTUAL`, `G_ID_CLIENTE_ACTUAL`) 
 
 ## Cómo dar de alta al primer administrador
 
-Como el sistema resuelve el rol buscando el usuario de APEX en las tablas, hace falta un primer registro manual:
+Como el sistema resuelve el rol buscando el usuario de APEX en las tablas, hace falta un primer registro. Esto ya está automatizado en `Base de datos/04_ALTA_ADMIN.sql`:
 
-```sql
-INSERT INTO OP_TECNICOS (username, nombre_completo, rol, usuario_apex, activo)
-VALUES ('mi_usuario', 'Administrador', 'ADMIN', 'mi_usuario', 'Y');
-COMMIT;
-```
+1. El script primero corre `SELECT SYS_CONTEXT('APEX$SESSION', 'APP_USER') FROM DUAL;` para mostrar con qué usuario estás logueado en APEX en ese momento.
+2. Con ese valor, inserta (o si ya existe, actualiza a `ROL = 'ADMIN'`) el registro correspondiente en `OP_TECNICOS`.
+3. Es idempotente: se puede volver a correr sin duplicar el registro.
 
-(reemplazando `'mi_usuario'` por el usuario exacto de login en APEX — se puede consultar con `SELECT SYS_CONTEXT('APEX$SESSION', 'APP_USER') FROM DUAL;`)
+No hace falta escribir el `INSERT` a mano — alcanza con ejecutar el script y confirmar el usuario que va a quedar como admin.

@@ -19,9 +19,9 @@ La idea clave: **un ticket de cliente y una orden de trabajo interna son el mism
 
 ## Estado actual
 
-🔶 **En construcción activa.** El diseño de base de datos está terminado y probado. La aplicación se está reconstruyendo pieza por pieza sobre una base limpia.
+🟢 **Núcleo interno 100% completo.** Las 21 páginas de la aplicación están importadas y funcionando (dashboard, catálogos, inventario, técnicos, repuestos, movimientos de stock, auditoría, notificaciones, informe de costes y órdenes de trabajo estilo Mantis).
 
-Ver `[ROADMAP.md](./ROADMAP.md)` para el detalle de qué está hecho y qué falta.
+Pendiente: adjuntos en Órdenes, Portal de Clientes, y funciones de empleados (Mis Órdenes, calendario, chat, base de conocimiento). Ver `[ROADMAP.md](./ROADMAP.md)` para el detalle.
 
 ## Documentación
 
@@ -38,6 +38,6 @@ Ver `[ROADMAP.md](./ROADMAP.md)` para el detalle de qué está hecho y qué falt
 
 Requiere una instancia de **Oracle Autonomous Database** con **Oracle APEX** habilitado.
 
-1. Ejecutar los scripts de `/db` en orden (`01_TABLAS.sql` → `02_PAQUETES.sql` → `03_TRIGGERS.sql`)
-2. Dar de alta al primer usuario administrador en `OP_TECNICOS` (ver detalle en `ROLES_Y_SEGURIDAD.md`)
-3. Importar la aplicación APEX desde App Builder → Import
+1. Ejecutar los scripts de `Base de datos/` **en orden numérico** (`00` solo si querés resetear desde cero, `01` a `11`)
+2. `04_ALTA_ADMIN.sql` da de alta (o promueve a ADMIN) al usuario logueado actualmente en APEX — no hace falta el INSERT manual
+3. Importar la aplicación APEX desde App Builder → Import (último export en `APEX/`)

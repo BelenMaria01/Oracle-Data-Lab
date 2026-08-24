@@ -2,31 +2,35 @@
 
 ## ✅ Hecho
 
-### Base de datos — modelo de datos 100% completo para las 5 secciones del mapa
-- [x] 17 tablas, 8 paquetes PL/SQL, 2 triggers (`01`–`04`)
+### Base de datos — 17 tablas, 8 paquetes PL/SQL, 3 triggers, 6 vistas de KPI (scripts `01`–`11`)
 - [x] Sistema de roles a nivel de datos (Admin/Técnico en `OP_TECNICOS`, Cliente/Cliente Admin en `OP_CLIENTES`)
 - [x] Modelo de Órdenes de Trabajo ampliado a estilo Mantis (severidad, pasos para reproducir, adjuntos, 6 estados)
 - [x] Modelo de empresas cliente (varios usuarios por empresa)
 - [x] Calendario de mantenimientos programados (`OP_MANTENIMIENTOS_PROGRAMADOS` + `PKG_MANTENIMIENTOS`) — genera órdenes automáticamente al vencer
 - [x] Base de conocimiento interna (`OP_ARTICULOS_KB` + `PKG_KB`)
-- [x] Vistas de KPI listas para bindear en Home/paneles (`VW_KPI_ORDENES_ESTADO`, `VW_KPI_ACTIVOS_ESTADO`, `VW_KPI_ORDENES_TECNICO`, `VW_MANTENIMIENTOS_PROXIMOS`)
-- [x] Scripts consolidados y reproducibles desde cero (`01_TABLAS` → `04_CALENDARIO_KB`, migraciones incrementales)
+- [x] Vistas de KPI listas para bindear en Home/paneles (`VW_KPI_ORDENES_ESTADO`, `VW_KPI_ACTIVOS_ESTADO`, `VW_KPI_ORDENES_TECNICO`, `VW_MANTENIMIENTOS_PROXIMOS`, `VW_KPI_TECNICOS_ACTIVO`, `VW_KPI_REPUESTOS_BAJO_MINIMO`)
+- [x] Trigger que sella `FECHA_BAJA` automáticamente al dar de baja un técnico (`05_TECNICOS_BAJA.sql`)
+- [x] Alta de admin automatizada por script, sin INSERT manual (`04_ALTA_ADMIN.sql`)
+- [x] Fix del `ORA-01422` al iniciar sesión: dedup + UNIQUE constraint en `OP_TECNICOS.USUARIO_APEX` (`08_FIX_LOGIN_DUPLICADOS.sql`)
+- [x] Datos de demo (catálogos, técnicos, equipos, repuestos, movimientos, auditoría — `07`, `09`, `10`, `11`)
+- [x] Scripts consolidados y reproducibles desde cero (`00_RESET_TOTAL` → `11_DATOS_DEMO_AUDITORIA`, migraciones incrementales)
 
-### Aplicación APEX — estado real en el servidor
-- [x] Página 0 (Global Page)
-- [x] Página 1 (Home) — shell con tema oscuro aplicado, sin KPIs todavía (placeholder)
-- [x] Página 9999 (Login)
+### Aplicación APEX — núcleo interno 100% completo (21 páginas, todas importadas y funcionando)
+- [x] Página 0 (Global Page) y Página 9999 (Login)
+- [x] Página 1 (Home) — dashboard con KPIs, gráfico dona, gráfico barras/línea y tablas "requiere atención"
+- [x] Catálogos: Tipos de Activo, Ubicaciones, Proveedores (páginas 2-7)
+- [x] Técnicos, con flujo de Alta/Baja (toggle + trigger DB)
+- [x] Inventario IT / Activos — con KPIs, gráficos, avatares, buscador
+- [x] Repuestos + Movimientos de Stock (el registro pasa por `PKG_INVENTARIO`, no hace INSERT directo)
+- [x] Auditoría (solo lectura, `@es-administrador`)
+- [x] Notificaciones (marcar leída / marcar todas leídas)
+- [x] Informe de Costes — KPIs + gráficos + tabla de proveedores
+- [x] Órdenes de Trabajo estilo Mantis (severidad/prioridad/pasos a reproducir) — sin adjunto todavía
 - [x] 4 Authorization Schemes + resolución automática de rol al iniciar sesión
 
-## 🔴 Pendiente de importar con éxito (ya construido, bloqueado por errores de import)
+## 🔴 Pendiente en el núcleo interno
 
-- [ ] Catálogos: Tipos de Activo, Ubicaciones, Proveedores (páginas 2-7) — construidas y corregidas varias veces, todavía sin confirmar un import limpio
-- [ ] Técnicos (con flujo de Alta/Baja)
-- [ ] Inventario IT / Activos
-- [ ] Repuestos + Movimientos de Stock
-- [ ] Auditoría, Notificaciones, Informe de Costes (UI)
-- [ ] Dashboard real de Home (conectar con las vistas VW_KPI_* ya creadas)
-- [ ] Órdenes de Trabajo / Tickets estilo Mantis (UI)
+- [ ] Adjuntos en Órdenes de Trabajo (`fileUpload`, todavía sin probar en este proyecto)
 
 ## 🔜 Próximo (Portal de Clientes)
 
