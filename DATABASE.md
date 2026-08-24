@@ -134,5 +134,6 @@ Migraciones incrementales numeradas — cada una se ejecuta una sola vez, en ord
 | `09_DATOS_DEMO_REPUESTOS.sql` | Datos de ejemplo de repuestos |
 | `10_DATOS_DEMO_MOVIMIENTOS.sql` | Datos de ejemplo de movimientos de stock |
 | `11_DATOS_DEMO_AUDITORIA.sql` | Datos de ejemplo de auditoría |
+| `12_DATOS_DEMO_ORDENES.sql` | 8 Órdenes de Trabajo de ejemplo, cubriendo los 6 estados (`NUEVO`, `EN_PROCESO`, `RESUELTO`, `CERRADO`, `REABIERTO`, `CANCELADO`) — creadas siempre vía `PKG_ORDENES`, nunca INSERT directo |
 
 > `04_ALTA_ADMIN.sql` y `04_CALENDARIO_KB.sql` comparten el mismo prefijo a propósito: son independientes entre sí y ambos se ejecutan después de `03`, en cualquier orden relativo.
