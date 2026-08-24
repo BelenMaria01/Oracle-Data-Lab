@@ -70,19 +70,26 @@
 - [x] Campo de adjunto (`fileUpload`, storage `appTempFiles`) restringido a PDF/XLSX/XLS
 - [x] Proceso PL/SQL que copia el archivo a `ADJUNTO_CONTENIDO`/`ADJUNTO_MIME`/`ADJUNTO_NOMBRE` tras el submit
 
+### Portal de Clientes — primera versión (V0.9.0)
+- [x] Página 21 "Mis Tickets" — listado filtrado por `G_ID_CLIENTE_ACTUAL`, mismo estilo de badges/buscador que Órdenes de Trabajo, protegida por `@es-cliente`
+- [x] "Nuevo Ticket" reutiliza la página 20 (mismo formulario que usa el staff), ahora accesible a `@puede-usar-tickets` (staff + cliente)
+- [x] Campos de uso interno (Estado, Técnico Asignado) ocultos en el formulario cuando el rol es Cliente/Cliente Admin
+- [x] Proceso que fuerza `ID_CLIENTE` = cliente logueado y protege Estado/Técnico Asignado contra manipulación cuando quien guarda es un cliente
+- [x] Guardia de propiedad: si un cliente intenta abrir una orden que no es suya (por URL directa), se lo redirige a Mis Tickets
+- [x] Chat del ticket — región "Mensajes" sobre `OP_ORDEN_MENSAJES`, visible solo con orden ya creada, con envío por AJAX (sin recargar el formulario) para cliente y staff
+- [x] Entrada de menú "Mis Tickets" (solo clientes, vía el mismo esquema de autorización que ya ocultaba el resto del menú)
+
 ## 🔴 Pendiente en el núcleo interno / Órdenes de Trabajo
 
 - [ ] **Probar el adjunto de punta a punta** — subir un archivo real y confirmar que se guarda correctamente en la orden (implementado pero sin probar en producción todavía)
 - [ ] Mostrar/descargar el adjunto ya subido — falta un link de descarga en el listado o el detalle de la orden
 
-## 🔜 Próximo — Portal de Clientes
+## 🔴 Pendiente en el Portal de Clientes (V0.9.0, recién construido, sin probar)
 
-- [ ] Página "Mis Tickets" para clientes (listado filtrado por cliente, solo los suyos)
-- [ ] "Nuevo Ticket" reutilizando la misma página que usa el staff (Orden de Trabajo)
-- [ ] "Todos los tickets" de la empresa del cliente (no solo los propios) — para el rol Cliente Admin
-- [ ] Chat del ticket — conversación cliente↔técnico sobre `OP_ORDEN_MENSAJES` (tabla ya existe, falta la UI)
-- [ ] Ocultar campos de uso interno (técnico asignado, costes) cuando el ticket lo crea/ve un cliente
+- [ ] **Probar todo el flujo de punta a punta**: login como cliente, ver "Mis Tickets", crear un ticket nuevo, confirmar que no puede tocar Estado/Técnico, mandar un mensaje en el chat, y confirmar que no puede abrir el ticket de otro cliente por URL
+- [ ] "Todos los tickets" de la empresa del cliente (no solo los propios) — para el rol Cliente Admin, todavía no implementado
 - [ ] (a futuro) gestión de usuarios: que un Cliente Admin invite a otros de su empresa
+- [ ] El chat hoy es un formulario simple (reporte + textarea + botón); si querés algo más "burbujas de chat" hay que agregar estilo visual encima
 
 ## 🔜 Próximo — Para empleados/técnicos
 
