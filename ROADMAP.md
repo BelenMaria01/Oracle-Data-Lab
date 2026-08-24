@@ -1,8 +1,44 @@
 # Roadmap
 
+## 🗺️ Mapa completo de la aplicación
+
+### 1️⃣ Núcleo interno (Staff / Admin)
+- Home — dashboard con KPIs, gráficos, alertas
+- Inventario IT — todo el hardware (equipos, con Tipo/Ubicación/Proveedor/Técnico asociados)
+- Catálogos — Tipos de Activo, Ubicaciones, Proveedores
+- Técnicos — con flujo de Alta/Baja
+- Repuestos + Movimientos de Stock (entradas/salidas de almacén)
+- Auditoría — registro de cambios
+- Notificaciones — stock bajo, asignaciones
+- Informe de Costes — analítica
+
+### 2️⃣ Órdenes de Trabajo = Tickets (el corazón de la app)
+- Un mismo concepto, dos caras: internamente es "mantenimiento", para el cliente es "reportar una incidencia"
+- Estilo Mantis: severidad, prioridad, pasos para reproducir, adjuntos, estados (Nuevo → En Proceso → Resuelto → Cerrado)
+
+### 3️⃣ Portal de Clientes (externo)
+- Mis Tickets — solo los suyos
+- Nuevo Ticket — comparte la misma página que usa el staff
+- Chat del ticket — conversación con el técnico
+- (a futuro) gestión de usuarios de su propia empresa
+
+### 4️⃣ Para empleados/técnicos
+- Mis Órdenes Asignadas — solo lo que le toca a cada uno
+- Panel/perfil del técnico — sus estadísticas
+- Calendario de mantenimientos programados
+- Chat en tickets asignados
+- Base de conocimiento interna
+
+### 5️⃣ Roles y seguridad (transversal a todo)
+- **Admin**: ve y gestiona todo
+- **Técnico**: ve todo lo operativo, no lo exclusivo de Admin
+- **Cliente**: solo su portal
+
+---
+
 ## ✅ Hecho
 
-### Base de datos — 17 tablas, 8 paquetes PL/SQL, 3 triggers, 6 vistas de KPI (scripts `01`–`11`)
+### Base de datos — 17 tablas, 8 paquetes PL/SQL, 3 triggers, 6 vistas de KPI (scripts `00`–`12`)
 - [x] Sistema de roles a nivel de datos (Admin/Técnico en `OP_TECNICOS`, Cliente/Cliente Admin en `OP_CLIENTES`)
 - [x] Modelo de Órdenes de Trabajo ampliado a estilo Mantis (severidad, pasos para reproducir, adjuntos, 6 estados)
 - [x] Modelo de empresas cliente (varios usuarios por empresa)
@@ -13,7 +49,8 @@
 - [x] Alta de admin automatizada por script, sin INSERT manual (`04_ALTA_ADMIN.sql`)
 - [x] Fix del `ORA-01422` al iniciar sesión: dedup + UNIQUE constraint en `OP_TECNICOS.USUARIO_APEX` (`08_FIX_LOGIN_DUPLICADOS.sql`)
 - [x] Datos de demo (catálogos, técnicos, equipos, repuestos, movimientos, auditoría — `07`, `09`, `10`, `11`)
-- [x] Scripts consolidados y reproducibles desde cero (`00_RESET_TOTAL` → `11_DATOS_DEMO_AUDITORIA`, migraciones incrementales)
+- [x] 8 Órdenes de Trabajo de ejemplo cubriendo los 6 estados, creadas vía `PKG_ORDENES` (`12_DATOS_DEMO_ORDENES.sql`)
+- [x] Scripts consolidados y reproducibles desde cero (`00_RESET_TOTAL` → `12_DATOS_DEMO_ORDENES`, migraciones incrementales)
 
 ### Aplicación APEX — núcleo interno 100% completo (21 páginas, todas importadas y funcionando)
 - [x] Página 0 (Global Page) y Página 9999 (Login)
@@ -25,27 +62,35 @@
 - [x] Auditoría (solo lectura, `@es-administrador`)
 - [x] Notificaciones (marcar leída / marcar todas leídas)
 - [x] Informe de Costes — KPIs + gráficos + tabla de proveedores
-- [x] Órdenes de Trabajo estilo Mantis (severidad/prioridad/pasos a reproducir) — sin adjunto todavía
 - [x] 4 Authorization Schemes + resolución automática de rol al iniciar sesión
 
-## 🔴 Pendiente en el núcleo interno
+### Órdenes de Trabajo — rediseño estilo Mantis Bug Tracker (V0.8.0)
+- [x] Modal "Nueva/Editar Orden" reestructurado en grilla tipo Mantis: filas Equipo/Tipo, Prioridad/Severidad, Estado/Técnico, con Título/Descripción/Pasos a ancho completo
+- [x] Tema oscuro del proyecto, modal ampliado (1100px)
+- [x] Campo de adjunto (`fileUpload`, storage `appTempFiles`) restringido a PDF/XLSX/XLS
+- [x] Proceso PL/SQL que copia el archivo a `ADJUNTO_CONTENIDO`/`ADJUNTO_MIME`/`ADJUNTO_NOMBRE` tras el submit
 
-- [ ] Adjuntos en Órdenes de Trabajo (`fileUpload`, todavía sin probar en este proyecto)
+## 🔴 Pendiente en el núcleo interno / Órdenes de Trabajo
 
-## 🔜 Próximo (Portal de Clientes)
+- [ ] **Probar el adjunto de punta a punta** — subir un archivo real y confirmar que se guarda correctamente en la orden (implementado pero sin probar en producción todavía)
+- [ ] Mostrar/descargar el adjunto ya subido — falta un link de descarga en el listado o el detalle de la orden
 
-- [ ] Página "Mis Tickets" para clientes (listado filtrado por cliente)
-- [ ] "Todos los tickets" de la empresa del cliente (no solo los propios)
-- [ ] Ocultar campos de uso interno (técnico asignado, costes) cuando el ticket lo crea un cliente
+## 🔜 Próximo — Portal de Clientes
 
-## 🔜 Próximo (para empleados/técnicos)
+- [ ] Página "Mis Tickets" para clientes (listado filtrado por cliente, solo los suyos)
+- [ ] "Nuevo Ticket" reutilizando la misma página que usa el staff (Orden de Trabajo)
+- [ ] "Todos los tickets" de la empresa del cliente (no solo los propios) — para el rol Cliente Admin
+- [ ] Chat del ticket — conversación cliente↔técnico sobre `OP_ORDEN_MENSAJES` (tabla ya existe, falta la UI)
+- [ ] Ocultar campos de uso interno (técnico asignado, costes) cuando el ticket lo crea/ve un cliente
+- [ ] (a futuro) gestión de usuarios: que un Cliente Admin invite a otros de su empresa
+
+## 🔜 Próximo — Para empleados/técnicos
 
 - [ ] "Mis Órdenes Asignadas" — vista filtrada por técnico (dato ya disponible en `VW_KPI_ORDENES_TECNICO`)
 - [ ] Panel/perfil personal del técnico (estadísticas, historial)
-- [ ] Interfaz de chat sobre `OP_ORDEN_MENSAJES` (ya existe la tabla, falta la UI)
+- [ ] Chat en tickets asignados (misma UI que el chat del portal de clientes, vista desde el lado técnico)
 - [ ] Calendario de mantenimientos (UI sobre `VW_MANTENIMIENTOS_PROXIMOS`, modelo de datos ya listo)
 - [ ] Base de conocimiento interna (UI sobre `OP_ARTICULOS_KB` + `PKG_KB`, modelo de datos ya listo)
-- [ ] Página de gestión de usuarios para que un Cliente Admin invite a otros de su empresa
 
 ## 🔮 Visión a futuro: Big Data + IA
 
