@@ -94,6 +94,16 @@
 - [ ] **Probar el adjunto de punta a punta** — subir un archivo real y confirmar que se guarda correctamente en la orden (implementado pero sin probar en producción todavía)
 - [ ] Mostrar/descargar el adjunto ya subido — falta un link de descarga en el listado o el detalle de la orden
 
+## ✅ Fix estructural: navegación con checksum (V1.2.0 / V1.3.0)
+
+Se encontró y corrigió un bug presente **desde el origen de la app**, no introducido en esta sesión: el patrón de "click en el ID de una fila para editar" usaba `apex.util.makeApplicationUrl` del lado del cliente, que no calcula un checksum válido al navegar hacia otra página cuando `pageAccessProtection: argumentsMustHaveChecksum` está activo (está activo en todas las páginas). Esto rompía el click-para-editar en **13 páginas**, incluidas 7 que existían antes de esta sesión y nunca se habían probado con ese flujo:
+
+- p02 Tipos de Activo, p04 Ubicaciones, p06 Proveedores, p08 Técnicos (se convirtieron de `tableName` a `sqlQuery` explícito)
+- p10 Inventario IT, p12 Repuestos, p17 Notificaciones
+- p19 Órdenes de Trabajo, p21 Mis Tickets, p22 Mis Órdenes Asignadas, p24 Calendario, p26 Base de Conocimiento, p28 Detalle de Orden (botón Editar)
+
+Solución aplicada en todas: generar la URL completa (con checksum) **del lado del servidor** vía `APEX_PAGE.GET_URL`, como una columna oculta más del listado, en vez de reconstruirla en JS.
+
 ## 🔴 Pendiente en el Portal de Clientes (V0.9.0, recién construido, sin probar)
 
 - [ ] **Probar todo el flujo de punta a punta**: login como cliente, ver "Mis Tickets", crear un ticket nuevo, confirmar que no puede tocar Estado/Técnico, mandar un mensaje en el chat, y confirmar que no puede abrir el ticket de otro cliente por URL
