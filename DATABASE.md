@@ -135,5 +135,8 @@ Migraciones incrementales numeradas — cada una se ejecuta una sola vez, en ord
 | `10_DATOS_DEMO_MOVIMIENTOS.sql` | Datos de ejemplo de movimientos de stock |
 | `11_DATOS_DEMO_AUDITORIA.sql` | Datos de ejemplo de auditoría |
 | `12_DATOS_DEMO_ORDENES.sql` | 8 Órdenes de Trabajo de ejemplo, cubriendo los 6 estados (`NUEVO`, `EN_PROCESO`, `RESUELTO`, `CERRADO`, `REABIERTO`, `CANCELADO`) — creadas siempre vía `PKG_ORDENES`, nunca INSERT directo |
+| `13_DATOS_DEMO_NOTIFICACIONES.sql` | 6 notificaciones de ejemplo (leídas y sin leer, con y sin técnico destino) para probar el listado y "Marcar todas como leídas" |
+| `14_DATOS_DEMO_HISTORICO.sql` | 6 Órdenes de Trabajo adicionales con fechas repartidas en 2024-2026 (no solo agosto 2026), para probar reportes/gráficos con histórico multi-año |
+| `15_CREAR_USUARIOS_PRUEBA.sql` | Crea 2 cuentas de login reales de APEX (`tecnico_demo` / `cliente_demo`) y las vincula a un técnico y a un cliente nuevo — correr desde SQL Workshop → SQL Commands, no desde un cliente SQL externo |
 
 > `04_ALTA_ADMIN.sql` y `04_CALENDARIO_KB.sql` comparten el mismo prefijo a propósito: son independientes entre sí y ambos se ejecutan después de `03`, en cualquier orden relativo.
