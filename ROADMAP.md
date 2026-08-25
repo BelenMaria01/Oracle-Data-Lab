@@ -94,6 +94,13 @@
 - [ ] **Probar el adjunto de punta a punta** — subir un archivo real y confirmar que se guarda correctamente en la orden (implementado pero sin probar en producción todavía)
 - [ ] Mostrar/descargar el adjunto ya subido — falta un link de descarga en el listado o el detalle de la orden
 
+## ✅ Página 28 (Detalle de Orden) — confirmada funcionando de punta a punta (V1.5.0)
+
+Click en el ID desde Órdenes de Trabajo / Mis Tickets / Mis Órdenes Asignadas → abre el detalle correctamente, con Título/Descripción/Pasos/Historial de Estados poblados, chat funcionando, y botón Volver (declarativo, sin JS) llevando de nuevo al listado según el rol. Quedó pendiente solo:
+
+- [ ] Repuestos Utilizados sigue vacío en las 8 órdenes demo (nunca se cargó ningún repuesto de ejemplo) — no es bug, falta dato y falta UI para cargar repuestos a una orden real
+- [ ] Adjunto: el nombre se muestra pero no hay link de descarga todavía (ver arriba)
+
 ## ✅ Fix estructural: navegación con checksum (V1.2.0 / V1.3.0)
 
 Se encontró y corrigió un bug presente **desde el origen de la app**, no introducido en esta sesión: el patrón de "click en el ID de una fila para editar" usaba `apex.util.makeApplicationUrl` del lado del cliente, que no calcula un checksum válido al navegar hacia otra página cuando `pageAccessProtection: argumentsMustHaveChecksum` está activo (está activo en todas las páginas). Esto rompía el click-para-editar en **13 páginas**, incluidas 7 que existían antes de esta sesión y nunca se habían probado con ese flujo:
