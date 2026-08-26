@@ -118,6 +118,13 @@ Solución aplicada en todas: generar la URL completa (con checksum) **del lado d
 - [ ] (a futuro) gestión de usuarios: que un Cliente Admin invite a otros de su empresa
 - [ ] El chat hoy es un formulario simple (reporte + textarea + botón); si querés algo más "burbujas de chat" hay que agregar estilo visual encima
 
+## ✅ Página 30 (Mi Perfil) — nueva, pendiente de probar de punta a punta
+
+Datos de contacto editables (Nombre/Email/Teléfono sobre `OP_CLIENTES`), bloque de solo lectura con Empresa/Rol/Cliente Desde, y cambio de contraseña propio vía `APEX_UTIL.RESET_PASSWORD` (requiere la contraseña actual, `p_change_password_on_first_use => FALSE` para no forzar otro cambio en el próximo login). Visible para Cliente y Cliente Admin. Agregada al menú "Portal de Cliente" y al breadcrumb.
+
+- [ ] Probar de punta a punta: guardar datos de contacto, y cambiar la contraseña de `cliente_demo` (confirmar que el nuevo login funciona)
+- [ ] Se detectó de paso que la página 29 "Tickets Empresa" nunca tuvo entrada en `shared-components/breadcrumbs.apx` (falta desde que se creó en V1.8.0) — no se tocó porque no era parte de este pedido
+
 ## 🔴 Pendiente en el bloque de empleados/técnicos (V1.0.0, recién construido, sin probar)
 
 - [ ] **Probar todo el flujo de punta a punta**: Mis Órdenes Asignadas, Mi Panel, crear una Programación de Mantenimiento, crear un Artículo KB y confirmar que se guarda el autor y suma la vista al reabrirlo
