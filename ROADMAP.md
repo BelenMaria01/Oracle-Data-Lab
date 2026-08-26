@@ -94,6 +94,12 @@
 - [ ] **Probar el adjunto de punta a punta** — subir un archivo real y confirmar que se guarda correctamente en la orden (implementado pero sin probar en producción todavía)
 - [ ] Mostrar/descargar el adjunto ya subido — falta un link de descarga en el listado o el detalle de la orden
 
+## ✅ Visibilidad de Órdenes de Trabajo restringida por rol (V1.8.0)
+
+Antes, "Órdenes de Trabajo" (página 19) mostraba TODAS las órdenes (asignadas o no) a cualquier miembro del staff, técnico o admin, estilo mesa de trabajo compartida. Se cambió a pedido: ahora el Técnico solo ve en esa página (listado y KPIs) las órdenes que tiene asignadas a sí mismo (`o.id_tecnico_asignado = :G_ID_TECNICO_ACTUAL`); el Admin sigue viendo todo. El botón "Nueva Orden" no se tocó, así que el técnico puede seguir creando tickets nuevos.
+
+- [ ] Nota: un técnico que crea un ticket y no se lo autoasigna, no lo va a ver en su propio listado hasta que alguien se lo asigne (ni a él ni a nadie). No se cambió porque no fue parte del pedido — avisar si se quiere que el creador también vea sus propios tickets sin asignar.
+
 ## ✅ Página 28 (Detalle de Orden) — confirmada funcionando de punta a punta (V1.5.0)
 
 Click en el ID desde Órdenes de Trabajo / Mis Tickets / Mis Órdenes Asignadas → abre el detalle correctamente, con Título/Descripción/Pasos/Historial de Estados poblados, chat funcionando, y botón Volver (declarativo, sin JS) llevando de nuevo al listado según el rol. Quedó pendiente solo:
