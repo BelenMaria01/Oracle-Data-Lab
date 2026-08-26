@@ -144,6 +144,15 @@ La query de "Tickets de Mi Empresa" tenía `WHERE o.id_cliente = :G_ID_CLIENTE_A
 
 Se agregó `18_DATOS_DEMO_SEGUNDO_CLIENTE.sql`: un segundo cliente ("Ana Torres") en la misma empresa que `cliente_demo` ("Cliente Demo S.L."), con un ticket propio — sin esto, la corrección era invisible en las pruebas porque la empresa demo tenía un solo cliente, y "todos los tickets de la empresa" y "mis tickets" daban igual necesariamente.
 
+## ✅ Página 31 (Mis Activos) — nueva, requiere correr 19_ALTER_ACTIVOS_EMPRESA.sql
+
+Listado de solo lectura de los equipos IT que pertenecen a la empresa del cliente (Nombre, Tipo, Marca, Modelo, Ubicación, Estado con badge, Alta), con KPIs (Equipos Totales / Activos / En Reparación) y buscador en vivo. Visible para Cliente y Cliente Admin.
+
+Requirió un cambio de esquema real: `OP_ACTIVOS` no tenía ninguna relación con `OP_EMPRESAS_CLIENTE` — los tickets de cliente simplemente referenciaban el inventario interno de equipos, sin que existiera el concepto de "este equipo es de tal empresa". `19_ALTER_ACTIVOS_EMPRESA.sql` agrega `ID_EMPRESA` (nullable, no rompe nada existente) y asigna los 2 equipos usados en los tickets demo (`SRV-DB-01`, `PC-RRHH-05`) a "Cliente Demo S.L.".
+
+- [ ] Probar de punta a punta: correr `19_ALTER_ACTIVOS_EMPRESA.sql`, entrar como `cliente_demo`, confirmar que "Mis Activos" muestra esos 2 equipos y no el resto del inventario interno
+- [ ] Pendiente a futuro: cuando se den de alta activos nuevos desde "Inventario IT" (p10/p11, staff), habrá que acordarse de setear `ID_EMPRESA` si el equipo es de un cliente externo — hoy ese campo no está expuesto en el formulario de Activo (p11), solo se puede setear por SQL. Avisar si se quiere agregar el campo al formulario.
+
 ## ✅ Página 30 (Mi Perfil) — nueva, pendiente de probar de punta a punta
 
 Datos de contacto editables (Nombre/Email/Teléfono sobre `OP_CLIENTES`), bloque de solo lectura con Empresa/Rol/Cliente Desde, y cambio de contraseña propio vía `APEX_UTIL.RESET_PASSWORD` (requiere la contraseña actual, `p_change_password_on_first_use => FALSE` para no forzar otro cambio en el próximo login). Visible para Cliente y Cliente Admin. Agregada al menú "Portal de Cliente" y al breadcrumb.
