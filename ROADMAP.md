@@ -94,6 +94,20 @@
 - [ ] **Probar el adjunto de punta a punta** — subir un archivo real y confirmar que se guarda correctamente en la orden (implementado pero sin probar en producción todavía)
 - [ ] Mostrar/descargar el adjunto ya subido — falta un link de descarga en el listado o el detalle de la orden
 
+## ✅ Auditoría de permisos por página (V1.8.0)
+
+Se revisaron las 31 páginas de la app para ver qué puede ver Admin/Técnico/Cliente. Cambios aplicados:
+
+- **Técnicos (8/9)**: de `@es-staff` a `@es-administrador`. Antes cualquier técnico podía editar el legajo de un colega, incluida la Alta/Baja — ahora es exclusivo de Admin.
+- **Informe de Costes (18)**: de `@es-staff` a `@es-administrador`. Antes cualquier técnico veía el reporte financiero completo (costes de adquisición, proveedores) — ahora es exclusivo de Admin.
+- Actualizadas las entradas de menú correspondientes (`shared-components/lists.apx`) para que no le aparezcan a un técnico links a páginas a las que ya no tiene acceso.
+
+Se revisó y se decidió **dejar como está** (técnico conserva acceso):
+- Catálogos (Tipos de Activo / Ubicaciones / Proveedores, páginas 2-7): técnico puede seguir dando de alta ubicaciones/proveedores que encuentra en el campo, bajo riesgo.
+- Calendario / Programación de Mantenimientos (24/25): técnico puede seguir planificando el mantenimiento de los equipos que atiende.
+
+- [ ] Nota: al restringir Técnicos a solo Admin, un técnico sigue sin tener ninguna forma de editar sus propios datos de contacto (Mi Panel, página 23, es de solo lectura). No es un problema nuevo introducido acá — ya existía antes — pero quedó más visible. Si se quiere, se podría replicar para el técnico algo similar a "Mi Perfil" del cliente (página 30).
+
 ## ✅ Visibilidad de Órdenes de Trabajo restringida por rol (V1.8.0)
 
 Antes, "Órdenes de Trabajo" (página 19) mostraba TODAS las órdenes (asignadas o no) a cualquier miembro del staff, técnico o admin, estilo mesa de trabajo compartida. Se cambió a pedido: ahora el Técnico solo ve en esa página (listado y KPIs) las órdenes que tiene asignadas a sí mismo (`o.id_tecnico_asignado = :G_ID_TECNICO_ACTUAL`); el Admin sigue viendo todo. El botón "Nueva Orden" no se tocó, así que el técnico puede seguir creando tickets nuevos.
