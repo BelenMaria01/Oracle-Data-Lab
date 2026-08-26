@@ -114,7 +114,7 @@ Solución aplicada en todas: generar la URL completa (con checksum) **del lado d
 ## 🔴 Pendiente en el Portal de Clientes (V0.9.0, recién construido, sin probar)
 
 - [ ] **Probar todo el flujo de punta a punta**: login como cliente, ver "Mis Tickets", crear un ticket nuevo, confirmar que no puede tocar Estado/Técnico, mandar un mensaje en el chat, y confirmar que no puede abrir el ticket de otro cliente por URL
-- [ ] "Todos los tickets" de la empresa del cliente (no solo los propios) — para el rol Cliente Admin, todavía no implementado
+- [x] "Todos los tickets" de la empresa del cliente (no solo los propios) — página 29 "Tickets Empresa", agregada en V1.8.0. `cliente_demo` se subió a rol `CLIENTE_ADMIN` (`16_CLIENTE_DEMO_ADMIN.sql`) para poder probarla. Pendiente: prueba de punta a punta.
 - [ ] (a futuro) gestión de usuarios: que un Cliente Admin invite a otros de su empresa
 - [ ] El chat hoy es un formulario simple (reporte + textarea + botón); si querés algo más "burbujas de chat" hay que agregar estilo visual encima
 
