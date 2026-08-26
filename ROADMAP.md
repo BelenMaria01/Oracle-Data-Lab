@@ -138,6 +138,12 @@ Solución aplicada en todas: generar la URL completa (con checksum) **del lado d
 - [ ] (a futuro) gestión de usuarios: que un Cliente Admin invite a otros de su empresa
 - [ ] El chat hoy es un formulario simple (reporte + textarea + botón); si querés algo más "burbujas de chat" hay que agregar estilo visual encima
 
+## ✅ Bug real corregido: Tickets Empresa (p29) filtraba por cliente, no por empresa
+
+La query de "Tickets de Mi Empresa" tenía `WHERE o.id_cliente = :G_ID_CLIENTE_ACTUAL` en el listado y en los 4 KPIs — o sea, filtraba por el cliente individual logueado, exactamente igual que "Mis Tickets" (p21). El Cliente Admin nunca veía los tickets de sus compañeros de empresa, solo los propios. Se corrigió a `WHERE c.id_empresa = (SELECT id_empresa FROM OP_CLIENTES WHERE id_cliente = :G_ID_CLIENTE_ACTUAL)` en las dos queries.
+
+Se agregó `18_DATOS_DEMO_SEGUNDO_CLIENTE.sql`: un segundo cliente ("Ana Torres") en la misma empresa que `cliente_demo` ("Cliente Demo S.L."), con un ticket propio — sin esto, la corrección era invisible en las pruebas porque la empresa demo tenía un solo cliente, y "todos los tickets de la empresa" y "mis tickets" daban igual necesariamente.
+
 ## ✅ Página 30 (Mi Perfil) — nueva, pendiente de probar de punta a punta
 
 Datos de contacto editables (Nombre/Email/Teléfono sobre `OP_CLIENTES`), bloque de solo lectura con Empresa/Rol/Cliente Desde, y cambio de contraseña propio vía `APEX_UTIL.RESET_PASSWORD` (requiere la contraseña actual, `p_change_password_on_first_use => FALSE` para no forzar otro cambio en el próximo login). Visible para Cliente y Cliente Admin. Agregada al menú "Portal de Cliente" y al breadcrumb.
