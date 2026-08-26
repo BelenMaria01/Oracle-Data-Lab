@@ -144,6 +144,21 @@ La query de "Tickets de Mi Empresa" tenía `WHERE o.id_cliente = :G_ID_CLIENTE_A
 
 Se agregó `18_DATOS_DEMO_SEGUNDO_CLIENTE.sql`: un segundo cliente ("Ana Torres") en la misma empresa que `cliente_demo` ("Cliente Demo S.L."), con un ticket propio — sin esto, la corrección era invisible en las pruebas porque la empresa demo tenía un solo cliente, y "todos los tickets de la empresa" y "mis tickets" daban igual necesariamente.
 
+## ✅ Páginas 32 (Notificaciones) y 33 (Calendario) para el cliente — requieren correr 20_NOTIFICACIONES_CLIENTE.sql
+
+**Página 32 — Notificaciones del cliente**: mismo patrón que la de staff (p17), pero solo ve las suyas (`id_cliente_destino = :G_ID_CLIENTE_ACTUAL`, sin el `OR ... IS NULL` que sí tiene la de staff para notificaciones globales — a propósito, para no filtrar accidentalmente notificaciones internas hacia el cliente). Botón "Marcar Todas Leídas" y click en una fila para marcarla leída.
+
+Requirió otro cambio de esquema real (mismo criterio que Mis Activos): `OP_NOTIFICACIONES` solo tenía `ID_TECNICO_DESTINO`. `20_NOTIFICACIONES_CLIENTE.sql`:
+- Agrega `ID_CLIENTE_DESTINO` (nullable) + FK a `OP_CLIENTES`.
+- Actualiza `PKG_NOTIFICACIONES` (las 4 subrutinas) para aceptar cliente además de técnico — parámetros nuevos al final con `DEFAULT NULL`, así que las llamadas existentes en p01 y p17 no se tocaron y siguen andando igual.
+- Agrega el trigger `TRG_OP_ORDENES_NOTIF_CLIENTE`: dispara sobre `UPDATE OF estado` en `OP_ORDENES_TRABAJO` cuando el ticket tiene cliente y el estado realmente cambió.
+
+`21_DATOS_DEMO_NOTIFICACION_CLIENTE.sql`: dispara un cambio de estado real (no INSERT directo) sobre uno de los tickets demo de `cliente_demo`, para que haya una notificación de prueba visible sin esperar a que un técnico cambie algo a mano.
+
+**Página 33 — Calendario de Mantenimientos del cliente**: solo lectura (sin botón "Nueva Programación", sin click a ningún formulario), filtrado por `a.id_empresa` (mismo patrón que Mis Activos). Muestra Título, Equipo, Técnico asignado, Prioridad y Próxima Fecha.
+
+- [ ] Probar de punta a punta: correr `20_NOTIFICACIONES_CLIENTE.sql` y `21_DATOS_DEMO_NOTIFICACION_CLIENTE.sql`, entrar como `cliente_demo`, confirmar que aparece 1 notificación sin leer sobre el ticket de facturación, que "Marcar Todas Leídas" funciona, y que "Calendario de Mantenimientos" no muestra nada todavía (no hay programaciones demo atadas a SRV-DB-01/PC-RRHH-05 — si se quiere ver algo ahí hay que crear una programación para esos equipos desde el lado staff, p25)
+
 ## ✅ Página 31 (Mis Activos) — nueva, requiere correr 19_ALTER_ACTIVOS_EMPRESA.sql
 
 Listado de solo lectura de los equipos IT que pertenecen a la empresa del cliente (Nombre, Tipo, Marca, Modelo, Ubicación, Estado con badge, Alta), con KPIs (Equipos Totales / Activos / En Reparación) y buscador en vivo. Visible para Cliente y Cliente Admin.
